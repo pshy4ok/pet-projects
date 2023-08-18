@@ -2,61 +2,65 @@ namespace MortalKombat;
 
 public class BattleLogic
 {
-    public static int playerHP = 100;
-    public static int computerHP = 100;
-    public static Random random = new Random();
-    public static bool isPlayerTurn = false;
-    public static string type = ConsoleLogic.type;
+    private static int _playerHp = 100;
+    private static int _computerHp = 100;
+    private static readonly Random Random = new ();
 
-    public static void Battle()
+    private static Logger _logger = new ();
+
+    public static void RunBattle()
     {
-        isPlayerTurn = random.Next(2) == 0;
-        int dmg = random.Next(15, 30);
-        int ddmg = 2 * dmg;
+        var isPlayerTurn = true;
+        var dmg = Random.Next(15, 30);
+        var doubleDmg = 2 * dmg;
 
-        while (playerHP > 0 && computerHP > 0)
+        _logger.Log("MORTAL COMBAT SIMULATOR\n");
+        _logger.Log("FIGHT\n");
+        _logger.Log($"\nYour HP: {_playerHp} || Computer HP: {_computerHp}");
+        while (_playerHp > 0 && _computerHp > 0)
         {
             if (isPlayerTurn)
             {
-                ConsoleLogic.Messages(type);
-                if (type.ToLower() == "l")
+                _logger.Log(
+                    $"\nChoose the type of your attack: \nl - light attack (15-25 damage) || h - heavy attack (30-50 damage, but you will skip the next move!)");
+                var attackType = InputReader.ReadInput();
+                switch (attackType.ToLower())
                 {
-                    computerHP -= dmg;
-                    Console.WriteLine(
-                        $"\nGood punch, you dealt {dmg} damage to computer! Computer has {computerHP} HP now!");
-                }
-                else if (type.ToLower() == "h")
-                {
-                    computerHP -= ddmg;
-                    Console.WriteLine(
-                        $"\nFatality! You dealt {ddmg} damage to computer! Computer has {computerHP} HP now! You will skip the next move!");
+                    case "l":
+                        _computerHp -= dmg;
+                        _logger.Log(
+                            $"\nGood punch, you dealt {dmg} damage to computer! Computer has {_computerHp} HP now!");
+                        break;
+                    case "h":
+                        _computerHp -= doubleDmg;
+                        _logger.Log(
+                            $"\nFatality! You dealt {doubleDmg} damage to computer! Computer has {_computerHp} HP now! You will skip the next move!");
 
-                    playerHP -= dmg;
-                    Console.WriteLine(
-                        $"\nYou skipped the move! Computer dealt {dmg} damage to you! You have {playerHP} now!");
-                }
-                else
-                {
-                    Console.WriteLine("\nWrong move! Please try again!");
-                    continue;
+                        _playerHp -= Random.Next(15, 30);
+                        _logger.Log(
+                            $"\nYou skipped the move! Computer dealt {dmg} damage to you! You have {_playerHp} now!");
+                        break;
+                    default:
+                        _logger.Log("\nWrong move! Please try again!");
+                        continue;
                 }
             }
             else
             {
-                playerHP -= dmg;
-                Console.WriteLine($"\nComputer dealt {dmg} damage to you! You have {playerHP} now!");
+                _playerHp -= dmg;
+                _logger.Log($"\nComputer dealt {dmg} damage to you! You have {_playerHp} now!");
             }
 
             isPlayerTurn = !isPlayerTurn;
         }
 
-        if (playerHP <= 0)
+        if (_playerHp <= 0)
         {
-            Console.WriteLine("\nYou are a looser! Computer wins!\n");
+            _logger.Log("\nYou are a looser! Computer wins!\n");
         }
-        else if (computerHP <= 0)
+        else if (_computerHp <= 0)
         {
-            Console.WriteLine("\nExcellent! You win!\n");
+            _logger.Log("\nExcellent! You win!\n");
         }
     }
 }
