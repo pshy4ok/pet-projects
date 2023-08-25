@@ -4,12 +4,10 @@ namespace MortalKombat;
 
 public class FileReader
 {
-    private static Logger _logger = new();
 
-    public static void ReadFile()
+    public static string[] ReadFileLines(string filePath)
     {
-        string path = @"types.txt";
-        string typeFromFile = File.ReadAllText(path, Encoding.Default);
-        Console.WriteLine(typeFromFile);
+        string[] lines = File.ReadAllLines(filePath, Encoding.Default);
+        return lines;
     }
 }

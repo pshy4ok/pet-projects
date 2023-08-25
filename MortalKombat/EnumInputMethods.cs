@@ -1,6 +1,6 @@
 namespace MortalKombat;
 
-public enum EnumMethods
+public enum EnumInputMethods
 {
     File,
     Console

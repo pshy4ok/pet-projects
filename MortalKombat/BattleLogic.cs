@@ -7,12 +7,18 @@ public class BattleLogic
     private static readonly Random Random = new();
     private static Logger _logger = new();
 
-    public static void RunBattle()
+    public static void RunBattle(EnumInputMethods attackInputMethod)
     {
+        string[] lines = null;
+        if (attackInputMethod == EnumInputMethods.File)
+        {
+            lines = FileReader.ReadFileLines(
+                "/Users/Олег/Documents/GitHub/pshy4ok/MortalKombat/bin/Debug/net7.0/types.txt");
+        }
         var isPlayerTurn = Random.Next(2) == 0;
 
         _logger.Log("MORTAL COMBAT SIMULATOR\n");
-        
+
         _logger.Log("Type 'start' to begin the game or 'q' to quit:");
         var menuMessage = InputReader.ReadInput();
         if (menuMessage.ToLower() == "start")
@@ -24,18 +30,22 @@ public class BattleLogic
             _logger.Log("\nSee you soon!");
             return;
         }
-        
+
+        var attackIndex = 0;
+
         while (_playerHp > 0 && _computerHp > 0)
         {
             var dmg = Random.Next(15, 30);
             var doubleDmg = 2 * dmg;
-
             if (isPlayerTurn)
             {
                 _logger.Log($"\nYour HP: {_playerHp} || Computer HP: {_computerHp}");
+
                 _logger.Log(
                     $"\nChoose the type of your attack: \nl - light attack (15-30 damage) || h - heavy attack (2x damage from the default value, but you will skip the next move!)");
-                var attackType = InputReader.ReadInput();
+                var attackType = attackInputMethod == EnumInputMethods.Console
+                    ? InputReader.ReadInput()
+                    : lines[attackIndex++];
                 switch (attackType.ToLower())
                 {
                     case "l":

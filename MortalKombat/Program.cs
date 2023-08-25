@@ -6,22 +6,27 @@ class Program
 
     static void Main()
     {
-        ReadMethod();
+        EnumInputMethods attackInputMethod = ReadMethod();
+        BattleLogic.RunBattle(attackInputMethod);
     }
 
-    public static EnumMethods ReadMethod()
+    public static EnumInputMethods ReadMethod()
     {
         _logger.Log("Choose the method of reading the type of attack!\nType 'file' or 'console':");
         var methodReading = InputReader.ReadInput();
 
         if (methodReading.ToLower() == "file")
         {
-            FileReader.ReadFile();
-            return EnumMethods.File;
+            return EnumInputMethods.File;
         }
         else if (methodReading.ToLower() == "console")
         {
-            return EnumMethods.Console;
+            return EnumInputMethods.Console;
+        }
+        else
+        {
+            _logger.Log("Invalid input. Please enter 'file' or 'console'.");
+            return ReadMethod();
         }
     }
 }
