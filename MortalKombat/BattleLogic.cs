@@ -6,14 +6,14 @@ public class BattleLogic
     private static int _computerHp = 100;
     private static readonly Random Random = new();
     private static Logger _logger = new();
+    private const string attackTypesFilePath = "/Users/Олег/Documents/GitHub/pshy4ok/MortalKombat/bin/Debug/net7.0/attackTypes.txt";
 
     public static void RunBattle(EnumInputMethods attackInputMethod)
     {
         string[] lines = null;
         if (attackInputMethod == EnumInputMethods.File)
         {
-            lines = FileReader.ReadFileLines(
-                "/Users/Олег/Documents/GitHub/pshy4ok/MortalKombat/bin/Debug/net7.0/types.txt");
+            lines = FileReader.ReadFileLines(attackTypesFilePath);
         }
         var isPlayerTurn = Random.Next(2) == 0;
 
