@@ -16,12 +16,12 @@ public class Program
                 string input = InputReader.ReadInput();
                 if (input.ToLower() == "attack")
                 {
-                    List<Potion> filteredPotions = _jsonFilter.ReadPotions("attack");
+                    List<Potion> filteredPotions = _jsonFilter.ReadPotions(input);
                     LogPotions(filteredPotions);
                 }
                 else if (input.ToLower() == "restoration")
                 {
-                    List<Potion> filteredPotions = _jsonFilter.ReadPotions("restoration");
+                    List<Potion> filteredPotions = _jsonFilter.ReadPotions(input);
                     LogPotions(filteredPotions);
                 }
                 else if (input.ToLower() == "q")
