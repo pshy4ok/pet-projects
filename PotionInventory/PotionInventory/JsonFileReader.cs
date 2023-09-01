@@ -21,6 +21,8 @@ public class JsonFileReader
             throw new FileNotFoundException("Could not found JSON file");
         }
         
-        return JsonConvert.DeserializeObject<T>(jsonFilePath);
+        
+        
+        return JsonConvert.DeserializeObject<T>(jsonTypes);
     }
 }
