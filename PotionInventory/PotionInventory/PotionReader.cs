@@ -4,18 +4,14 @@ namespace PotionInventory;
 
 public class PotionReader
 {
-    [JsonProperty("name")]
-    public string PotionName { get; set; }
-    
-    [JsonProperty("type")]
-    public string PotionType { get; set; }
-    
-    [JsonProperty("action")]
-    public string PotionAction { get; set; }
-    
-    [JsonProperty("recovery")]
-    public int? PotionRecovery { get; set; }
-    
-    [JsonProperty("damage")]
-    public int? PotionDamage { get; set; }
+    public static Logger _logger = new();
+
+    public List<Potion> ReadPotions(string type)
+    {
+        List<Potion> potions = JsonFileReader.ReadJson<List<Potion>>();
+
+        var filteredPotions = potions.Where(p => p.PotionType.ToLower() == type.ToLower()).ToList();
+
+        return filteredPotions;
+    }
 }

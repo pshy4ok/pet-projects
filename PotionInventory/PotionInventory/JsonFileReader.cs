@@ -8,16 +8,19 @@ public class JsonFileReader
     public static Logger _logger = new();
     public const string jsonFilePath =
         "/Users/Олег/Documents/GitHub/pshy4ok/PotionInventory/PotionInventory/bin/Debug/net7.0/potions.json";
-    
-    public void ReadJson()
+
+    public static bool CheckIfFileExists()
     {
-        List <PotionReader> potions = JsonConvert.DeserializeObject<List<PotionReader>>(jsonTypes);
-
-        foreach (PotionReader potion in potions)
+        return File.Exists(jsonFilePath);
+    }
+    
+    public static T ReadJson<T>()
+    {
+        if (!CheckIfFileExists())
         {
-            _logger.Log($"Name: {potion.PotionName} | Type: {potion.PotionType} | Action: {potion.PotionAction} | Recovery: {potion.PotionRecovery} | Damage: {potion.PotionDamage}\n");
+            throw new FileNotFoundException("Could not found JSON file");
         }
-
-        InputReader.ReadInput();
+        
+        return JsonConvert.DeserializeObject<T>(jsonFilePath);
     }
 }
