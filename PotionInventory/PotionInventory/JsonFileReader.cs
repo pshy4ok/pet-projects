@@ -7,8 +7,7 @@ public class JsonFileReader
     public static string jsonTypes = File.ReadAllText(jsonFilePath);
     public static Logger _logger = new();
 
-    public const string jsonFilePath =
-        "/Users/Олег/Documents/GitHub/pshy4ok/PotionInventory/PotionInventory/bin/Debug/net7.0/potions.json";
+    public const string jsonFilePath = "potions.json";
 
     public static bool CheckIfFileExists()
     {

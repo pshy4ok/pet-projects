@@ -7,12 +7,11 @@ public class Logger
         Console.WriteLine(message);
     }
 
-    public void LogPotions(List<Potion> potions)
+    public void LogMessages(string[] messages)
     {
-        foreach (Potion potion in potions)
+        foreach (string message in messages)
         {
-            Console.WriteLine(
-                $"Name: {potion.PotionName} | Type: {potion.PotionType} | Action: {potion.PotionAction} | Recovery: {potion.PotionRecovery} | Damage: {potion.PotionDamage}\n");
+            Console.WriteLine(message);
         }
     }
 }
