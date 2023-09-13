@@ -4,13 +4,13 @@ namespace BooksLibrary;
 
 public class Book
 {
-    [XmlAttribute("seriesid")]
+    [XmlElement("seriesid")]
     public int SeriesId { get; set; }
-    [XmlAttribute("title")]
+    [XmlElement("title")]
     public string Title { get; set; }
-    [XmlAttribute("genre")]
+    [XmlElement("genre")]
     public string Genre { get; set; }
-    [XmlAttribute("author")]
+    [XmlElement("author")]
     public string Author { get; set; }
 
     public Book()

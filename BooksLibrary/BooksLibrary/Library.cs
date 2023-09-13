@@ -2,14 +2,14 @@ namespace BooksLibrary;
 
 public class Library
 {
-    private List<Book> allBooks;
+    private Book[] allBooks;
     private Dictionary<string, Book[]> authorIndex;
-    private Dictionary<int, LinkedList> linkedLists = new Dictionary<int, LinkedList>();
+    private Dictionary<int, LinkedList> linkedLists = new ();
     private Logger _logger = new();
 
     public Library(BooksCollection booksCollection)
     {
-        allBooks = booksCollection.Items.ToList();
+        allBooks = booksCollection.Items;
         authorIndex = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
 
         foreach (var book in allBooks)
@@ -24,7 +24,7 @@ public class Library
 
     public BooksCollection GetAllBooks(string filePath)
     {
-        return new BooksCollection { Items = allBooks.ToArray() };
+        return new BooksCollection { Items = allBooks };
     }
     
     public IEnumerable<Book> SearchByTitle(string title)
