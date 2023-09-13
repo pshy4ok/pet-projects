@@ -2,9 +2,9 @@ namespace BooksLibrary;
 
 public class Library
 {
-    private Book[] allBooks;
+    public static Book[] allBooks;
     private Dictionary<string, Book[]> authorIndex;
-    private Dictionary<int, LinkedList> linkedLists = new ();
+    private Dictionary<int, LinkedList> linkedLists = new();
     private Logger _logger = new();
 
     public Library(BooksCollection booksCollection)
@@ -18,35 +18,40 @@ public class Library
             {
                 linkedLists[book.SeriesId] = new LinkedList();
             }
+
             linkedLists[book.SeriesId].AddBook(book);
         }
     }
 
-    public BooksCollection GetAllBooks(string filePath)
+    public Book[] GetAllBooks(string filePath)
     {
-        return new BooksCollection { Items = allBooks };
+        foreach (var book in allBooks)
+        {
+            _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+        }
+
+        return allBooks.ToArray();
     }
-    
-    public IEnumerable<Book> SearchByTitle(string title)
+
+    public Book[] SearchByTitle(string title)
     {
         var results = allBooks.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
         foreach (var book in results)
         {
-            if (linkedLists.TryGetValue(book.SeriesId, out var seriesLinkedList))
-            {
-                foreach (var linkedBook in seriesLinkedList.Books)
-                {
-                    yield return linkedBook;
-                }
-            }
+            _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
         }
+
+        return new Book[] { };
     }
 
     public Book[] SearchByAuthor(string author)
     {
         if (authorIndex.TryGetValue(author, out var results))
         {
-            return results;
+            foreach (var book in results)
+            {
+                _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+            }
         }
         else
         {
@@ -56,9 +61,15 @@ public class Library
         return new Book[] { };
     }
 
-    public IEnumerable<Book> SearchByGenre(string genre)
+    public Book[] SearchByGenre(string genre)
     {
         var results = allBooks.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
-        return results;
+
+        foreach (var book in results)
+        {
+            _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+        }
+
+        return allBooks.ToArray();
     }
 }
