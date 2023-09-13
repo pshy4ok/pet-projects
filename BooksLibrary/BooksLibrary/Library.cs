@@ -4,20 +4,20 @@ namespace BooksLibrary;
 
 public class Library
 {
-    private static List<Books> allBooks;
-    private static Dictionary<string, List<Books>> authorIndex;
-    private static LinkedList<Books> booksLinkedList;
+    private static List<Book> allBooks;
+    private static Dictionary<string, List<Book>> authorIndex;
+    private static LinkedList<Book> booksLinkedList;
     private static Logger _logger = new();
     public const string xmlFilePath = "books.xml";
 
-    public Library(List<Books> books)
+    public Library(List<Book> books)
     {
         allBooks = books;
         authorIndex = books.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToList());
-        booksLinkedList = new LinkedList<Books>(books);
+        booksLinkedList = new LinkedList<Book>(books);
     }
 
-    public static List<Books> ShowAllBooks(string filePath)
+    public static BooksCollection GetAllBooks(string filePath)
     {
         return XmlReader.ReadXml(xmlFilePath);
     }
@@ -46,7 +46,7 @@ public class Library
         DisplayResults(results);
     }
 
-    private static void DisplayResults(IEnumerable<Books> results)
+    private static void DisplayResults(IEnumerable<Book> results)
     {
             foreach (var book in results)
             {

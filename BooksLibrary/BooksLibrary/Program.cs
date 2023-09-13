@@ -18,7 +18,7 @@ public class Program
         switch (option)
         {
             case "0":
-                Library.ShowAllBooks(xmlFilePath);
+                var books = Library.GetAllBooks(xmlFilePath);
                 break;
             case "1":
                 _logger.Log("Input title to search:");

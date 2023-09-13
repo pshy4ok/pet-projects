@@ -7,25 +7,23 @@ public class XmlReader
     private static Logger _logger = new();
     
 
-    public static List<Books> ReadXml(string filePath)
+    public static BooksCollection ReadXml(string filePath)
     {
-        List<Books> books = new List<Books>();
+        var result = new BooksCollection();
 
         try
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Books>));
+            var serializer = new XmlSerializer(typeof(BooksCollection));
 
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                books = (List<Books>)serializer.Deserialize(fs);
-            }
+            using var fs = new FileStream(filePath, FileMode.Open);
+            result = (BooksCollection)serializer.Deserialize(fs);
         }
         catch (Exception ex)
         {
             _logger.Log($"Error reading XML file: {ex.Message}");
         }
 
-        return books;
+        return result;
     }
 }
 

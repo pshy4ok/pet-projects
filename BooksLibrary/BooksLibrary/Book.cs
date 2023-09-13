@@ -2,22 +2,22 @@ using System.Xml.Serialization;
 
 namespace BooksLibrary;
 
-[XmlRoot("books")]public class Books
+public class Book
 {
-    [XmlAttribute("SeriesID")]
+    [XmlElement("seriesid")]
     public int SeriesId { get; set; }
-    [XmlAttribute("Title")]
+    [XmlElement("title")]
     public string Title { get; set; }
-    [XmlAttribute("Genre")]
+    [XmlElement("genre")]
     public string Genre { get; set; }
-    [XmlAttribute("Author")]
+    [XmlElement("author")]
     public string Author { get; set; }
 
-    public Books()
+    public Book()
     {
     }
     
-    public Books(int id, string title, string genre, string author)
+    public Book(int id, string title, string genre, string author)
     {
         SeriesId = id;
         Title = title;
