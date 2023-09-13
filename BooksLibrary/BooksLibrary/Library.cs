@@ -1,56 +1,64 @@
-using System.Xml;
-
 namespace BooksLibrary;
 
 public class Library
 {
-    private static List<Book> allBooks;
-    private static Dictionary<string, List<Book>> authorIndex;
-    private static LinkedList<Book> booksLinkedList;
-    private static Logger _logger = new();
-    public const string xmlFilePath = "books.xml";
+    private List<Book> allBooks;
+    private Dictionary<string, Book[]> authorIndex;
+    private Dictionary<int, LinkedList> linkedLists = new Dictionary<int, LinkedList>();
+    private Logger _logger = new();
 
-    public Library(List<Book> books)
+    public Library(BooksCollection booksCollection)
     {
-        allBooks = books;
-        authorIndex = books.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToList());
-        booksLinkedList = new LinkedList<Book>(books);
+        allBooks = booksCollection.Items.ToList();
+        authorIndex = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
+
+        foreach (var book in allBooks)
+        {
+            if (!linkedLists.ContainsKey(book.SeriesId))
+            {
+                linkedLists[book.SeriesId] = new LinkedList();
+            }
+            linkedLists[book.SeriesId].AddBook(book);
+        }
     }
 
-    public static BooksCollection GetAllBooks(string filePath)
+    public BooksCollection GetAllBooks(string filePath)
     {
-        return XmlReader.ReadXml(xmlFilePath);
+        return new BooksCollection { Items = allBooks.ToArray() };
     }
     
-    public static void SearchByTitle(string title)
+    public IEnumerable<Book> SearchByTitle(string title)
     {
         var results = allBooks.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        DisplayResults(results);
+        foreach (var book in results)
+        {
+            if (linkedLists.TryGetValue(book.SeriesId, out var seriesLinkedList))
+            {
+                foreach (var linkedBook in seriesLinkedList.Books)
+                {
+                    yield return linkedBook;
+                }
+            }
+        }
     }
 
-    public static void SearchByAuthor(string author)
+    public Book[] SearchByAuthor(string author)
     {
         if (authorIndex.TryGetValue(author, out var results))
         {
-            DisplayResults(results);
+            return results;
         }
         else
         {
             _logger.Log("Author wasn't found");
         }
+
+        return new Book[] { };
     }
 
-    public static void SearchByGenre(string genre)
+    public IEnumerable<Book> SearchByGenre(string genre)
     {
         var results = allBooks.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
-        DisplayResults(results);
-    }
-
-    private static void DisplayResults(IEnumerable<Book> results)
-    {
-            foreach (var book in results)
-            {
-                _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}");
-            }
+        return results;
     }
 }

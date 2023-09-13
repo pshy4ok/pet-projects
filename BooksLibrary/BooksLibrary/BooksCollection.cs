@@ -5,6 +5,5 @@ namespace BooksLibrary;
 [XmlRoot("books")]
 public class BooksCollection
 {
-    [XmlElement("book")]
-    public Book[] Items { get; set; } = Array.Empty<Book>();
+    [XmlElement("book")] public Book[] Items { get; set; } = Array.Empty<Book>();
 }
