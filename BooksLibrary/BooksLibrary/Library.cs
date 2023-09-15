@@ -3,73 +3,52 @@ namespace BooksLibrary;
 public class Library
 {
     public static Book[] allBooks;
-    private Dictionary<string, Book[]> authorIndex;
-    private Dictionary<int, LinkedList> linkedLists = new();
+    private Dictionary<string, Book[]> author;
+    private Dictionary<int, LinkedList> seriesLists = new();
     private Logger _logger = new();
-
+    
     public Library(BooksCollection booksCollection)
     {
         allBooks = booksCollection.Items;
-        authorIndex = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
+        author = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
 
         foreach (var book in allBooks)
         {
-            if (!linkedLists.ContainsKey(book.SeriesId))
+            if (!seriesLists.ContainsKey(book.SeriesId))
             {
-                linkedLists[book.SeriesId] = new LinkedList();
+                seriesLists[book.SeriesId] = new LinkedList();
             }
 
-            linkedLists[book.SeriesId].AddBook(book);
+            seriesLists[book.SeriesId].AddBook(book);
         }
     }
 
     public Book[] GetAllBooks(string filePath)
     {
-        foreach (var book in allBooks)
-        {
-            _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
-        }
-
         return allBooks.ToArray();
     }
 
     public Book[] SearchByTitle(string title)
     {
         var results = allBooks.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        foreach (var book in results)
-        {
-            _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
-        }
-
-        return new Book[] { };
+        return results.ToArray();
     }
 
     public Book[] SearchByAuthor(string author)
     {
-        if (authorIndex.TryGetValue(author, out var results))
+        if (this.author.TryGetValue(author, out var results))
         {
-            foreach (var book in results)
-            {
-                _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
-            }
+            return results.ToArray();
         }
         else
         {
-            _logger.Log("Author wasn't found");
+            return new Book[] { };
         }
-
-        return new Book[] { };
     }
 
     public Book[] SearchByGenre(string genre)
     {
         var results = allBooks.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
-
-        foreach (var book in results)
-        {
-            _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
-        }
-
-        return allBooks.ToArray();
+        return results.ToArray();
     }
 }

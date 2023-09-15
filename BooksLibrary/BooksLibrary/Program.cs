@@ -15,25 +15,42 @@ public class Program
 
             var library = new Library(LoadBooksFromXml());
 
+
             switch (option)
             {
                 case "0":
-                    library.GetAllBooks(xmlFilePath);
+                    var allBooks = library.GetAllBooks(xmlFilePath);
+                    foreach (var book in allBooks)
+                    {
+                        _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+                    }
                     break;
                 case "1":
                     _logger.Log("Input title to search:\n");
                     string title = InputReader.ReadInput();
-                    library.SearchByTitle(title);
+                    var titleResults = library.SearchByTitle(title);
+                    foreach (var book in titleResults)
+                    {
+                        _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+                    }
                     break;
                 case "2":
                     _logger.Log("Input author to search:\n");
                     string author = InputReader.ReadInput();
-                    library.SearchByAuthor(author);
+                    var authorResults = library.SearchByAuthor(author);
+                    foreach (var book in authorResults)
+                    {
+                        _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+                    }
                     break;
                 case "3":
                     _logger.Log("Input genre to search:\n");
                     string genre = InputReader.ReadInput();
-                    library.SearchByGenre(genre);
+                    var genreResults = library.SearchByGenre(genre);
+                    foreach (var book in genreResults)
+                    {
+                        _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
+                    }
                     break;
                 case "4":
                     _logger.Log("\nSee you soon!");
