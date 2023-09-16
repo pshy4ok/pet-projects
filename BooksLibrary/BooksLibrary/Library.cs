@@ -2,11 +2,12 @@ namespace BooksLibrary;
 
 public class Library
 {
-    public static Book[] allBooks;
+    private static Book[] allBooks;
     private Dictionary<string, Book[]> author;
-    private Dictionary<int, LinkedList> seriesLists = new();
+    private Dictionary<int, LinkedList<BooksCollection>> seriesLists = new();
     private Logger _logger = new();
-    
+    public BooksCollection BooksCollection { get; }
+
     public Library(BooksCollection booksCollection)
     {
         allBooks = booksCollection.Items;
@@ -16,10 +17,10 @@ public class Library
         {
             if (!seriesLists.ContainsKey(book.SeriesId))
             {
-                seriesLists[book.SeriesId] = new LinkedList();
+                seriesLists[book.SeriesId] = new LinkedList<BooksCollection>();
             }
 
-            seriesLists[book.SeriesId].AddBook(book);
+            seriesLists[book.SeriesId].AddLast(BooksCollection);
         }
     }
 

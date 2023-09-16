@@ -2,7 +2,7 @@ using System.Xml.Serialization;
 
 namespace BooksLibrary;
 
-public class XmlReader
+public abstract class XmlReader
 {
     private static Logger _logger = new();
     
