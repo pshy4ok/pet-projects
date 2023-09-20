@@ -13,7 +13,7 @@ public class Program
                 "Select the option:\n0 - Show all the books\n1 - Searching by the title\n2 - Searching by the author\n3 - Searching by genre\n4 - Exit");
             string option = InputReader.ReadInput();
 
-            var library = new Library(LoadBooksFromXml());
+            var library = new Library(LoadBooksFromXml<BooksCollection>());
 
 
             switch (option)
@@ -64,8 +64,8 @@ public class Program
     }
 
 
-    private static BooksCollection LoadBooksFromXml()
+    private static T LoadBooksFromXml<T>()
     {
-        return XmlReader.ReadXml(xmlFilePath);
+        return XmlReader.ReadXml<T>(xmlFilePath);
     }
 }
