@@ -7,6 +7,7 @@ public class Program
 
     public static void Main(string[] args)
     {
+        ThreadSimulator.RunThread();
         while (true)
         {
             _logger.Log(

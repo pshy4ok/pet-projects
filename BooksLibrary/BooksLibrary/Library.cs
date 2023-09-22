@@ -5,7 +5,6 @@ public class Library
     private static Book[] allBooks;
     private Dictionary<string, Book[]> author;
     private Dictionary<int, LinkedList<BooksCollection>> seriesLists = new();
-    private Logger _logger = new();
     public BooksCollection BooksCollection { get; }
 
     public Library(BooksCollection booksCollection)
