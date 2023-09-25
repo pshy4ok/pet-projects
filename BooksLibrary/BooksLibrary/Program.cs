@@ -2,12 +2,12 @@
 
 public class Program
 {
-    public const string xmlFilePath = "books.xml";
+    private const string XmlFilePath = "books.xml";
     private static Logger _logger = new();
 
     public static void Main(string[] args)
     {
-        ThreadSimulator.RunThread();
+        BackgroundJobSimulator.RunThread();
         while (true)
         {
             _logger.Log(
@@ -20,7 +20,7 @@ public class Program
             switch (option)
             {
                 case "0":
-                    var allBooks = library.GetAllBooks(xmlFilePath);
+                    var allBooks = library.GetAllBooks(XmlFilePath);
                     foreach (var book in allBooks)
                     {
                         _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
@@ -67,6 +67,6 @@ public class Program
 
     private static T LoadBooksFromXml<T>()
     {
-        return XmlReader.ReadXml<T>(xmlFilePath);
+        return XmlReader.ReadXml<T>(XmlFilePath);
     }
 }

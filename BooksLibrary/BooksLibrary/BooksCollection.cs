@@ -6,15 +6,15 @@ namespace BooksLibrary;
 [XmlRoot("books")]
 public class BooksCollection
 {
-    public const string xmlFilePath = "books.xml";
-    private static readonly ConcurrentBag<Book> bookCollection = new ConcurrentBag<Book>();
+    private const string XmlFilePath = "books.xml";
+    [XmlIgnore]private ConcurrentBag<Book> bookCollection = new ConcurrentBag<Book>();
     private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
 
-    [XmlElement("book")]
-    public Book[] Items => bookCollection.ToArray();
+    [XmlElement("book")] 
+    public Book[] Items { get; set; } = Array.Empty<Book>();
 
 
-    public static async Task AddBookAsync(Book book)
+    public async Task AddBookAsync(Book book)
     {
         await semaphore.WaitAsync();
         try
@@ -27,11 +27,11 @@ public class BooksCollection
         }
     }
 
-    public static async Task AddRandomBooksToLibraryAsync()
+    public async Task AddRandomBooksToLibraryAsync()
     {
         var random = new Random();
-
-        for (int i = 0; i < 100; i++)
+        var tasks = new List<Task>();
+        for (int i = 0; i < 100; ++i)
         {
             var book = new Book
             {
@@ -40,8 +40,9 @@ public class BooksCollection
                 Genre = $"Genre {i}",
                 Author = $"Author {i}"
             };
-
-            await AddBookAsync(book);
+            tasks.Add(AddBookAsync(book));
         }
+
+        await Task.WhenAll(tasks);
     }
 }
