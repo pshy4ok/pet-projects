@@ -1,15 +1,16 @@
+using System.Collections.Concurrent;
+
 namespace BooksLibrary;
 
 public class Library
 {
-    private static Book[] allBooks;
+    private ConcurrentBag<Book> allBooks;
     private Dictionary<string, Book[]> author;
     private Dictionary<int, LinkedList<BooksCollection>> seriesLists = new();
-    public BooksCollection BooksCollection { get; }
 
     public Library(BooksCollection booksCollection)
     {
-        allBooks = booksCollection.Items;
+        allBooks = new ConcurrentBag<Book>(booksCollection.Items);
         author = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
 
         foreach (var book in allBooks)
@@ -19,8 +20,32 @@ public class Library
                 seriesLists[book.SeriesId] = new LinkedList<BooksCollection>();
             }
 
-            seriesLists[book.SeriesId].AddLast(BooksCollection);
+            seriesLists[book.SeriesId].AddLast(booksCollection);
         }
+    }
+
+    private async Task AddBookAsync(Book book)
+    {
+        allBooks.Add(book);
+    }
+    
+    public async Task AddRandomBooksToLibraryAsync()
+    {
+        var random = new Random();
+        var tasks = new List<Task>();
+        for (int i = 0; i < 100; ++i)
+        {
+            var book = new Book
+            {
+                SeriesId = random.Next(6, 100),
+                Title = $"Book {i}",
+                Genre = $"Genre {i}",
+                Author = $"Author {i}"
+            };
+            tasks.Add(AddBookAsync(book));
+        }
+
+        await Task.WhenAll(tasks);
     }
 
     public Book[] GetAllBooks(string filePath)

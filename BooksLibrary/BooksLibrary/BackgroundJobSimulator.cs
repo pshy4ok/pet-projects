@@ -2,9 +2,9 @@ namespace BooksLibrary;
 
 public abstract class BackgroundJobSimulator
 {
-    private static BooksCollection _booksCollection;
+    private static Library _library;
     public static async Task RunThread()
     {
-        await Task.Run(_booksCollection.AddRandomBooksToLibraryAsync);
+        await Task.Run(_library.AddRandomBooksToLibraryAsync);
     }
 }
