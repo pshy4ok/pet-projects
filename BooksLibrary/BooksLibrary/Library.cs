@@ -4,29 +4,34 @@ namespace BooksLibrary;
 
 public class Library
 {
-    private ConcurrentBag<Book> allBooks;
-    private Dictionary<string, Book[]> author;
-    private Dictionary<int, LinkedList<BooksCollection>> seriesLists = new();
-
+    private readonly ConcurrentBag<Book> _booksBag;
     public Library(BooksCollection booksCollection)
     {
-        allBooks = new ConcurrentBag<Book>(booksCollection.Items);
-        author = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
-
-        foreach (var book in allBooks)
-        {
-            if (!seriesLists.ContainsKey(book.SeriesId))
-            {
-                seriesLists[book.SeriesId] = new LinkedList<BooksCollection>();
-            }
-
-            seriesLists[book.SeriesId].AddLast(booksCollection);
-        }
+        _booksBag = new ConcurrentBag<Book>(booksCollection.Items);
     }
 
-    private async Task AddBookAsync(Book book)
+    public IEnumerable<Book> GetAllBooks()
     {
-        allBooks.Add(book);
+        return _booksBag.ToArray();
+    }
+
+    public IEnumerable<Book> SearchByTitle(string title)
+    {
+        var results = _booksBag.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+        return results.ToArray();
+    }
+
+    public IEnumerable<Book> SearchByAuthor(string author)
+    {
+        var booksByAuthor = _booksBag.GroupBy(x => x.Author)
+            .ToDictionary(x => x.Key, x => x);
+        return booksByAuthor.TryGetValue(author, out var results) ? results.ToArray() : Array.Empty<Book>();
+    }
+
+    public IEnumerable<Book> SearchByGenre(string genre)
+    {
+        var results = _booksBag.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
+        return results.ToArray();
     }
     
     public async Task AddRandomBooksToLibraryAsync()
@@ -48,32 +53,9 @@ public class Library
         await Task.WhenAll(tasks);
     }
 
-    public Book[] GetAllBooks(string filePath)
+    private async Task AddBookAsync(Book book)
     {
-        return allBooks.ToArray();
-    }
-
-    public Book[] SearchByTitle(string title)
-    {
-        var results = allBooks.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        return results.ToArray();
-    }
-
-    public Book[] SearchByAuthor(string author)
-    {
-        if (this.author.TryGetValue(author, out var results))
-        {
-            return results.ToArray();
-        }
-        else
-        {
-            return new Book[] { };
-        }
-    }
-
-    public Book[] SearchByGenre(string genre)
-    {
-        var results = allBooks.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
-        return results.ToArray();
+        _booksBag.Add(book);
+        await Task.Delay(100);
     }
 }

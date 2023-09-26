@@ -2,25 +2,22 @@
 
 public class Program
 {
-    private const string XmlFilePath = "books.xml";
     private static Logger _logger = new();
 
     public static void Main(string[] args)
-    {
-        BackgroundJobSimulator.RunThread();
+    {   
+        var library = new Library(LoadBooksFromXml<BooksCollection>());
+        Task.Run(() => BackgroundJobSimulator.RunThread(library));
         while (true)
         {
             _logger.Log(
                 "Select the option:\n0 - Show all the books\n1 - Searching by the title\n2 - Searching by the author\n3 - Searching by genre\n4 - Exit");
             string option = InputReader.ReadInput();
 
-            var library = new Library(LoadBooksFromXml<BooksCollection>());
-
-
             switch (option)
             {
                 case "0":
-                    var allBooks = library.GetAllBooks(XmlFilePath);
+                    var allBooks = library.GetAllBooks();
                     foreach (var book in allBooks)
                     {
                         _logger.Log($"Title: {book.Title}\nAuthor: {book.Author}\nGenre: {book.Genre}\n");
@@ -67,6 +64,6 @@ public class Program
 
     private static T LoadBooksFromXml<T>()
     {
-        return XmlReader.ReadXml<T>(XmlFilePath);
+        return XmlReader.ReadXml<T>(BooksCollection.XmlFilePath);
     }
 }
