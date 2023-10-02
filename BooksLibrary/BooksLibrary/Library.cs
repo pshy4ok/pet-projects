@@ -1,55 +1,61 @@
+using System.Collections.Concurrent;
+
 namespace BooksLibrary;
 
 public class Library
 {
-    private static Book[] allBooks;
-    private Dictionary<string, Book[]> author;
-    private Dictionary<int, LinkedList<BooksCollection>> seriesLists = new();
-    private Logger _logger = new();
-    public BooksCollection BooksCollection { get; }
-
+    private readonly ConcurrentBag<Book> _booksBag;
     public Library(BooksCollection booksCollection)
     {
-        allBooks = booksCollection.Items;
-        author = allBooks.GroupBy(b => b.Author).ToDictionary(g => g.Key, g => g.ToArray());
+        _booksBag = new ConcurrentBag<Book>(booksCollection.Items);
+    }
 
-        foreach (var book in allBooks)
+    public IEnumerable<Book> GetAllBooks()
+    {
+        return _booksBag.ToArray();
+    }
+
+    public IEnumerable<Book> SearchByTitle(string title)
+    {
+        var results = _booksBag.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+        return results.ToArray();
+    }
+
+    public IEnumerable<Book> SearchByAuthor(string author)
+    {
+        var booksByAuthor = _booksBag.GroupBy(x => x.Author)
+            .ToDictionary(x => x.Key, x => x);
+        return booksByAuthor.TryGetValue(author, out var results) ? results.ToArray() : Array.Empty<Book>();
+    }
+
+    public IEnumerable<Book> SearchByGenre(string genre)
+    {
+        var results = _booksBag.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
+        return results.ToArray();
+    }
+    
+    public async Task AddRandomBooksToLibraryAsync()
+    {
+        var random = new Random();
+        var tasks = new List<Task>();
+        for (int i = 0; i < 100; ++i)
         {
-            if (!seriesLists.ContainsKey(book.SeriesId))
+            var book = new Book
             {
-                seriesLists[book.SeriesId] = new LinkedList<BooksCollection>();
-            }
-
-            seriesLists[book.SeriesId].AddLast(BooksCollection);
+                SeriesId = random.Next(6, 100),
+                Title = $"Book {i}",
+                Genre = $"Genre {i}",
+                Author = $"Author {i}"
+            };
+            tasks.Add(AddBookAsync(book));
         }
+
+        await Task.WhenAll(tasks);
     }
 
-    public Book[] GetAllBooks(string filePath)
+    private async Task AddBookAsync(Book book)
     {
-        return allBooks.ToArray();
-    }
-
-    public Book[] SearchByTitle(string title)
-    {
-        var results = allBooks.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        return results.ToArray();
-    }
-
-    public Book[] SearchByAuthor(string author)
-    {
-        if (this.author.TryGetValue(author, out var results))
-        {
-            return results.ToArray();
-        }
-        else
-        {
-            return new Book[] { };
-        }
-    }
-
-    public Book[] SearchByGenre(string genre)
-    {
-        var results = allBooks.Where(b => b.Genre.Contains(genre, StringComparison.OrdinalIgnoreCase));
-        return results.ToArray();
+        _booksBag.Add(book);
+        await Task.Delay(100);
     }
 }
