@@ -1,3 +1,5 @@
+using ClansAPI.Interfaces;
+using ClansAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClansAPI.Controllers;
@@ -6,43 +8,34 @@ namespace ClansAPI.Controllers;
 [Route("api/clans")]
 public class ClansController : ControllerBase
 {
-    [HttpPost(Name = "CreateClan")]
-    public IActionResult CreateClan([FromBody] ClanModel clan)
+    private readonly IClansStorage _clansStorage;
+
+    public ClansController(IClansStorage clansStorage)
     {
-        ClansList.clanList.Add(clan);
-        return CreatedAtRoute("GetClanById", new { id = clan.Id }, clan);
+        _clansStorage = clansStorage;
+    }
+    
+    [HttpPost]
+    public ClanModel CreateClan([FromBody] ClanModel clanModel)
+    {
+        return _clansStorage.CreateClan(clanModel);
+    }
+    
+    [HttpGet]
+    public List<ClanModel> GetAllClans()
+    {
+        return _clansStorage.GetAllClans();
+    }
+    
+    [HttpGet("{id:int}")]
+    public ClanModel GetClanById([FromRoute] int id)
+    {
+        return _clansStorage.GetClanById(id);
     }
 
-    [HttpGet(Name = "GetAllClans")]
-    public IActionResult GetAllClans()
+    [HttpPatch("{id:int}")]
+    public ClanModel ChangeClanDescription([FromBody] ClanModel updatedDescription, int id)
     {
-        return Ok(ClansList.clanList);
-    }
-
-    [HttpGet("{id:int}", Name = "GetClanById")]
-    public IActionResult GetClanById(int id)
-    {
-        var clan = ClansList.clanList.FirstOrDefault(c => c.Id == id);
-
-        if (clan == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(clan);
-    }
-
-    [HttpPatch(Name = "ChangeClanDescription")]
-    public IActionResult ChangeClanDescription([FromBody] ClanModel updatedDescription, int id)
-    {
-        var existingDescription = ClansList.clanList.FirstOrDefault(c => c.Id == id);
-
-        if (existingDescription == null)
-        {
-            return NotFound();
-        }
-
-        existingDescription.Description = updatedDescription.Description;
-        return Ok(existingDescription);
+        return _clansStorage.ChangeClanDescription(updatedDescription, id);
     }
 }

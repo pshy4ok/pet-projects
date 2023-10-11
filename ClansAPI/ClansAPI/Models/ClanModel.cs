@@ -1,4 +1,4 @@
-namespace ClansAPI;
+namespace ClansAPI.Models;
 
 public class ClanModel
 {
