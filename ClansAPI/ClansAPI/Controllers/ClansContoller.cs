@@ -1,3 +1,4 @@
+using ClansAPI.Data.Entities;
 using ClansAPI.Interfaces;
 using ClansAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,34 +9,34 @@ namespace ClansAPI.Controllers;
 [Route("api/clans")]
 public class ClansController : ControllerBase
 {
-    private readonly IClansStorage _clansStorage;
+    private readonly IClanService _clanService;
 
-    public ClansController(IClansStorage clansStorage)
+    public ClansController(IClanService clanService)
     {
-        _clansStorage = clansStorage;
+        _clanService = clanService;
     }
-    
+
     [HttpPost]
-    public ClanModel CreateClan([FromBody] ClanModel clanModel)
+    public async Task<ClanModel> CreateClanAsync([FromBody] ClanModel clanModel)
     {
-        return _clansStorage.CreateClan(clanModel);
+        return await _clanService.CreateClanAsync(clanModel);
     }
-    
+
     [HttpGet]
-    public List<ClanModel> GetAllClans()
+    public async Task<List<ClanModel>> GetAllClansAsync()
     {
-        return _clansStorage.GetAllClans();
+        return await _clanService.GetAllClansAsync();
     }
-    
+
     [HttpGet("{id:int}")]
-    public ClanModel GetClanById([FromRoute] int id)
+    public async Task<ClanModel> GetClanByIdAsync([FromRoute] int id)
     {
-        return _clansStorage.GetClanById(id);
+        return await _clanService.GetClanByIdAsync(id);
     }
 
     [HttpPatch("{id:int}")]
-    public ClanModel ChangeClanDescription([FromBody] ClanModel updatedDescription, int id)
+    public async Task<Clan> ChangeClanDescriptionAsync([FromBody] string description, int id)
     {
-        return _clansStorage.ChangeClanDescription(updatedDescription, id);
+        return await _clanService.ChangeClanDescriptionAsync(description, id);
     }
 }

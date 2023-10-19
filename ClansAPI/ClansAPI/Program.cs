@@ -1,5 +1,7 @@
 using ClansAPI;
+using ClansAPI.Data;
 using ClansAPI.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IClansStorage, ClansStorage>();
+builder.Services.AddScoped<IClanService, ClanService>();
+builder.Services.AddDbContext<ApplicationContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 
 var app = builder.Build();
 
