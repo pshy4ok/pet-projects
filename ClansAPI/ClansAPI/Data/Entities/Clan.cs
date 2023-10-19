@@ -1,3 +1,5 @@
+using ClansAPI.Models;
+
 namespace ClansAPI.Data.Entities;
 
 public class Clan

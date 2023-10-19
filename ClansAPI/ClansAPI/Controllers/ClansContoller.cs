@@ -35,8 +35,8 @@ public class ClansController : ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<ClanModel> ChangeClanDescriptionAsync([FromBody] ClanModel updatedDescription, int id)
+    public async Task<Clan> ChangeClanDescriptionAsync([FromBody] string description, int id)
     {
-        return await _clanService.ChangeClanDescriptionAsync(updatedDescription, id);
+        return await _clanService.ChangeClanDescriptionAsync(description, id);
     }
 }

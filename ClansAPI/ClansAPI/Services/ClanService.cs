@@ -54,14 +54,14 @@ public class ClanService : IClanService
             : null;
     }
 
-    public async Task<ClanModel> ChangeClanDescriptionAsync(ClanModel updatedDescription, int id)
+    public async Task<Clan> ChangeClanDescriptionAsync(string description, int id)
     {
         var existingDescription = await _applicationContext.Clans.FirstOrDefaultAsync(c => c.Id == id);
 
-        existingDescription.Description = updatedDescription.Description;
+        existingDescription.Description = description;
         
         await _applicationContext.SaveChangesAsync();
 
-        return updatedDescription;
+        return existingDescription;
     }
 }

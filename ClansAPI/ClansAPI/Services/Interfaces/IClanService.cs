@@ -6,8 +6,8 @@ namespace ClansAPI.Interfaces;
 
 public interface IClanService
 {
-    Task<ClanModel> CreateClanAsync([FromBody] ClanModel clanModel);
+    Task<ClanModel> CreateClanAsync(ClanModel clanModel);
     Task<List<ClanModel>> GetAllClansAsync();
-    Task<ClanModel?> GetClanByIdAsync([FromRoute] int id);
-    Task<ClanModel> ChangeClanDescriptionAsync([FromBody] ClanModel updatedDescription, int id);
+    Task<ClanModel?> GetClanByIdAsync(int id);
+    Task<Clan> ChangeClanDescriptionAsync(string description, int id);
 }
