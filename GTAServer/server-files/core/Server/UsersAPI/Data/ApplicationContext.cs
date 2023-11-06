@@ -14,7 +14,7 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().ToTable("user")
+        modelBuilder.Entity<User>().ToTable("users")
             .HasKey(c => c.Id);
     }
 }

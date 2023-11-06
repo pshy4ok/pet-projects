@@ -1,33 +1,90 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
 
-<head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-
-<body>
-
+  <body>
     <div class="container">
-        <h2 class="container__title">Welcome</h2>
-        <div class="form">
-            <button id="toggleButton" class="form__toggle" onclick="toggleForm()">Login</button>
-            <form id="loginForm" style="display: none;">
-                <input type="text" id="loginUsername" class="form__input" placeholder="Username" required pattern="[A-Za-z0-9]+" title="Please enter valid username (alphanumeric characters only)">
-                <input type="password" id="loginPassword" class="form__input" placeholder="Password" required pattern="[A-Za-z0-9]+" title="Please enter valid password (alphanumeric characters only)">
-                <input id="submitButton" type="submit" value="Login" class="form__submit" onclick="onCloseForm()">
-            </form>
-            <form id="registrationForm">
-                <input type="text" id="username" class="form__input" placeholder="Username" required pattern="[A-Za-z0-9]+" title="Please enter valid username (alphanumeric characters only)">
-                <input type="email" id="email" class="form__input" placeholder="Email" required>
-                <input type="password" id="password" class="form__input" placeholder="Password" required pattern="[A-Za-z0-9]+" title="Please enter valid password (alphanumeric characters only)">
-                <input type="password" id="confirmPassword" class="form__input" placeholder="Confirm Password" required>
-                <span id="error" class="form__error"></span>
-                <input id="submitButton" type="submit" value="Register" class="form__submit" onclick="onUserRegister()">
-            </form>
-        </div>
+      <div class="form" id="loginForm">
+        <h2 class="container__title">Login</h2>
+        <form>
+          <input
+            type="text"
+            id="loginUsername"
+            class="form__input"
+            placeholder="Username"
+            required
+            pattern="[A-Za-z0-9]+"
+            title="Please enter valid username (alphanumeric characters only)"
+          />
+          <input
+            type="password"
+            id="loginPassword"
+            class="form__input"
+            placeholder="Password"
+            required
+            pattern="[A-Za-z0-9]+"
+            title="Please enter valid password (alphanumeric characters only)"
+          />
+          <button
+            id="loginSubmitButton"
+            type="submit"
+            value="Login"
+            class="form__submit"
+            onclick="onUserLogin()">Login</button>
+          <p>Don't have an account? <a href="#" onclick="showRegistrationForm()">Register</a></p>
+        </form>
+      </div>
+
+      <div class="form" id="registrationForm">
+        <h2 class="container__title">Register</h2>
+        <form>
+          <input
+            type="text"
+            id="username"
+            class="form__input"
+            placeholder="Username"
+            required
+            pattern="[A-Za-z0-9]+"
+            title="Please enter valid username (alphanumeric characters only)"
+          />
+          <input
+            type="email"
+            id="email"
+            class="form__input"
+            placeholder="Email"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            class="form__input"
+            placeholder="Password"
+            required
+            pattern="[A-Za-z0-9]+"
+            title="Please enter valid password (alphanumeric characters only)"
+          />
+          <input
+            type="password"
+            id="confirmPassword"
+            class="form__input"
+            placeholder="Confirm Password"
+            required
+          />
+          <span id="error" class="form__error"></span>
+          <button
+            id="registerSubmitButton"
+            type="submit"
+            value="Register"
+            class="form__submit"
+            onclick="onUserRegister()">Register</button>
+          <p>Already have an account? <a href="#" onclick="showLoginForm()">Login</a></p>
+        </form>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
-
+    <script src="configuration.js"></script>
+  </body>
 </html>

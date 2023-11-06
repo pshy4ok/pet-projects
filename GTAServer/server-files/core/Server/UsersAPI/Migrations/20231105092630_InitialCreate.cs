@@ -12,7 +12,7 @@ namespace UsersAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "user",
+                name: "users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -23,7 +23,7 @@ namespace UsersAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                 });
         }
 
@@ -31,7 +31,7 @@ namespace UsersAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "user");
+                name: "users");
         }
     }
 }

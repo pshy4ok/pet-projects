@@ -1,4 +1,5 @@
-﻿using RAGE;
+﻿using System.Data.SqlTypes;
+using RAGE;
 using RAGE.Game;
 using RAGE.Ui;
 
@@ -7,22 +8,22 @@ namespace Client
     public class Main : Events.Script
     {
         HtmlWindow openedWindow;
-        private readonly string htmlWindowPath = "C:/RAGEMP/server-files/client_packages/cef/auth/index.html";
+        private readonly string htmlWindowPath = "C://RAGEMP/server-files/client_packages/cef/auth/index.html";
 
         public Main()
         {
             Events.OnPlayerReady += OnPlayerReady;
             Events.OnPlayerSpawn += OnPlayerSpawn;
             Events.OnPlayerCreateWaypoint += OnPlayerCreateWaypoint;
-            Events.Add("registerPlayer", OnPlayerRegister);
+            Events.Add("closeWindow", OnCloseWindow);
         }
 
         public void OnPlayerReady()
         {
             Chat.Output("Welcome!");
         }
-    
-        public void OnPlayerRegister(object[] args)
+        
+        public void OnCloseWindow(object[] args)
         {
             openedWindow.Destroy();
             Cursor.ShowCursor(false, false);

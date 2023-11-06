@@ -11,7 +11,7 @@ using UsersAPI.Data;
 namespace UsersAPI.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231025142559_InitialCreate")]
+    [Migration("20231105092630_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -46,7 +46,7 @@ namespace UsersAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user", (string)null);
+                    b.ToTable("users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,7 @@
 using GTANetworkAPI;
-using RAGE;
-using Vehicle = GTANetworkMethods.Vehicle;
+using GTANetworkMethods;
+using Player = GTANetworkAPI.Player;
+
 
 public class Commands : Script
 {
