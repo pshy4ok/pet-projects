@@ -1,0 +1,5 @@
+<meta>
+	<info name="GTA5 API" description="Test API" />
+	
+	<script src="Debug\netcoreapp3.1\Server.dll" />
+</meta>
