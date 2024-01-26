@@ -19,7 +19,6 @@ public class AccountService : IAccountService
     {
         var account = new Account
         {
-            UserFullName = accountModel.UserFullName,
             AccountNumber = accountModel.AccountNumber,
             UserId = accountModel.UserId
         };

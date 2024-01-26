@@ -1,61 +1,70 @@
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using OnlineBankAPI.Data;
+using Microsoft.AspNetCore.Identity;
 using OnlineBankAPI.Data.Entities;
 using OnlineBankAPI.Models;
 using OnlineBankAPI.Services.Interfaces;
+using System;
+using System.Threading.Tasks;
 
-namespace OnlineBankAPI.Services;
-
-public class UserService : IUserService
+namespace OnlineBankAPI.Services
 {
-    private readonly ApplicationContext _applicationContext;
-
-    public UserService(ApplicationContext applicationContext)
+    public class UserService : IUserService
     {
-        _applicationContext = applicationContext;
-    }
-    
-    public async Task<UserModel> RegisterUserAsync(UserModel userModel)
-    {
-        var existingEmail = await _applicationContext.Users.FirstOrDefaultAsync(e => e.Email == userModel.Email);
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        if (existingEmail != null)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            throw new Exception("This email is already registered");
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        using (SHA512 sha512 = new SHA512Managed())
+        public async Task<UserModel> RegisterUserAsync(UserModel userModel)
         {
-            var hashedPassword = Convert.ToBase64String(sha512.ComputeHash(Encoding.UTF8.GetBytes(userModel.Password)));
+            var existingUser = await _userManager.FindByEmailAsync(userModel.Email);
+
+            if (existingUser != null)
+            {
+                throw new Exception("This email is already registered");
+            }
+
             var user = new User
             {
-                FullName = userModel.FullName,
-                Email = userModel.Email,
-                Password = hashedPassword
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                UserName = userModel.FirstName + userModel.LastName,
+                Email = userModel.Email
             };
 
-            await _applicationContext.Users.AddAsync(user);
-            await _applicationContext.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, userModel.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"User registration failed. {string.Join(", ", result.Errors)}");
+            }
 
             return userModel;
         }
-    }
 
-    public async Task<string> LoginUserAsync(LoginRequestModel loginRequestModel)
-    {
-        using (SHA512 sha512 = new SHA512Managed())
+        public async Task<string> LoginUserAsync(LoginRequestModel loginRequestModel)
         {
-            var hashedInputPassword = Convert.ToBase64String(sha512.ComputeHash(Encoding.UTF8.GetBytes(loginRequestModel.Password)));
-            var user = await _applicationContext.Users.Include(x => x.Account).FirstOrDefaultAsync(u => u.Email == loginRequestModel.Email);
+            var user = await _userManager.FindByEmailAsync(loginRequestModel.Email);
 
-            if (user == null || user.Password != hashedInputPassword)
+            if (user == null)
             {
-                throw new Exception("Invalid username or password.");
+                return null;
             }
 
-            return user.FullName;
+            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, loginRequestModel.Password, lockoutOnFailure: false);
+
+            if (!signInResult.Succeeded)
+            {
+                return null;
+            }
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+
+            return user.FirstName;
         }
+
     }
 }

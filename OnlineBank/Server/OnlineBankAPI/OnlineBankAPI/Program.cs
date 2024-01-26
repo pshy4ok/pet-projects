@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankAPI.Data;
+using OnlineBankAPI.Data.Entities;
 using OnlineBankAPI.Services;
 using OnlineBankAPI.Services.Interfaces;
 
@@ -18,6 +20,19 @@ builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder =>
         .AllowAnyMethod()
         .AllowAnyHeader();
 }));
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+    {
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 8;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.AllowedForNewUsers = true;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<ApplicationContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -31,6 +46,7 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

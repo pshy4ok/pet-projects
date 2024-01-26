@@ -15,7 +15,7 @@ public class AccountsController : ControllerBase
         _accountService = accountService;
     }
     
-    [HttpPost("/create")]
+    [HttpPost("/account")]
     public async Task<AccountModel> CreateAccountAsync([FromBody] AccountModel accountModel)
     {
         return await _accountService.CreateAccountAsync(accountModel);

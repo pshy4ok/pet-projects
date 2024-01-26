@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace OnlineBankAPI.Models;
 
 public class LoginRequestModel

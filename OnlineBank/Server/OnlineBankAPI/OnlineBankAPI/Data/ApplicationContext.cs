@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankAPI.Data.Entities;
+using OnlineBankAPI.Models;
 
 namespace OnlineBankAPI.Data;
 
@@ -15,6 +17,9 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<IdentityUserClaim<string>>()
+            .HasKey(x => new { x.Id });
+        
         modelBuilder.Entity<User>()
             .ToTable("users")
             .HasKey(x => x.Id);

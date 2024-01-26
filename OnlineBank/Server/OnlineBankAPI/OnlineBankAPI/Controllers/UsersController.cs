@@ -15,7 +15,7 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("/registration")]
+    [HttpPost("/signup")]
     public async Task<UserModel> RegisterUserAsync([FromBody] UserModel userModel)
     {
         return await _userService.RegisterUserAsync(userModel);
