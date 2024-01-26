@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankAPI.Data.Entities;
 using OnlineBankAPI.Models;
 
 namespace OnlineBankAPI.Data;
 
-public class ApplicationContext : DbContext
+public sealed class ApplicationContext : IdentityDbContext<User>
 {
-    public DbSet<User> Users { get; set; }
     public DbSet<Account> Accounts { get; set; }
     
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
-        
+        Database.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,5 +32,7 @@ public class ApplicationContext : DbContext
 
         modelBuilder.Entity<Account>()
             .HasKey(x => x.Id);
+        
+        base.OnModelCreating(modelBuilder);
     }
 }
