@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBankAPI.Models;
 
@@ -7,4 +8,5 @@ public interface IUserService
 {
     Task<UserModel> RegisterUserAsync(UserModel userModel);
     Task<string> LoginUserAsync(LoginRequestModel loginRequestModel);
+    Task<string> GetUserAsync(HttpContext httpContext);
 }

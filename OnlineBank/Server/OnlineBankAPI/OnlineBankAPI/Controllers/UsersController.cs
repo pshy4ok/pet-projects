@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBankAPI.Models;
 using OnlineBankAPI.Services.Interfaces;
@@ -22,8 +24,23 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost("/login")]
-    public async Task<string> LoginUserAsync([FromBody] LoginRequestModel loginRequestModel)
+    public async Task<IActionResult> LoginUserAsync([FromBody] LoginRequestModel loginRequestModel)
     {
-        return await _userService.LoginUserAsync(loginRequestModel);
+        var token = await _userService.LoginUserAsync(loginRequestModel);
+
+        if (string.IsNullOrEmpty(token))
+        {
+            return Unauthorized("User does not exist!");
+        }
+
+        return Ok(token);
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("/user")]
+    public async Task<string> GetUserAsync()
+    {
+        var userName = await _userService.GetUserAsync(HttpContext);
+        return userName;
     }
 }
