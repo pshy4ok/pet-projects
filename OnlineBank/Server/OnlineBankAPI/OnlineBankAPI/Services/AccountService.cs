@@ -13,19 +13,4 @@ public class AccountService : IAccountService
     {
         _applicationContext = applicationContext;
     }
-
-
-    public async Task<AccountModel> CreateAccountAsync(AccountModel accountModel)
-    {
-        var account = new Account
-        {
-            AccountNumber = accountModel.AccountNumber,
-            UserId = accountModel.UserId
-        };
-
-        await _applicationContext.Accounts.AddAsync(account);
-        await _applicationContext.SaveChangesAsync();
-
-        return accountModel;
-    }
 }

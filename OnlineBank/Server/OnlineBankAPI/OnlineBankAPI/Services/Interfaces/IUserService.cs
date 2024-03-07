@@ -7,6 +7,6 @@ namespace OnlineBankAPI.Services.Interfaces;
 public interface IUserService
 {
     Task<UserModel> RegisterUserAsync(UserModel userModel);
-    Task<string> LoginUserAsync(LoginRequestModel loginRequestModel);
-    Task<string> GetUserAsync(HttpContext httpContext);
+    Task<object> LoginUserAsync(LoginRequestModel loginRequestModel);
+    Task<object> GetUserAsync(HttpContext httpContext);
 }

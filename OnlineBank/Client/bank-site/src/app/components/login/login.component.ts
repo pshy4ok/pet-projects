@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from "../../../environment";
 import { TokenService } from '../../../token.service';
 
@@ -21,14 +21,12 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.formData;
     const formData = { email, password };
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    this.http.post(`${environment.apiUrl}/login`, JSON.stringify(formData), { headers: headers, responseType: 'text' })
+    this.http.post<any>(`${environment.apiUrl}/login`, formData)
       .subscribe(
-        (token: any) => {
-          console.log('Login successful', token);
+        (response: any) => {
+          console.log('Login successful', response);
+
+          const token = response.accessToken;
 
           this.tokenService.setToken(token);
 

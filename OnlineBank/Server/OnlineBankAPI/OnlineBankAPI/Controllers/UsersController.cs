@@ -28,7 +28,7 @@ public class UsersController : ControllerBase
     {
         var token = await _userService.LoginUserAsync(loginRequestModel);
 
-        if (string.IsNullOrEmpty(token))
+        if (token == null)
         {
             return Unauthorized("User does not exist!");
         }
@@ -38,9 +38,10 @@ public class UsersController : ControllerBase
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("/user")]
-    public async Task<string> GetUserAsync()
+    public async Task<ActionResult<object>> GetUserAsync()
     {
-        var userName = await _userService.GetUserAsync(HttpContext);
-        return userName;
+        var user = await _userService.GetUserAsync(HttpContext);
+        return Ok(user);
     }
+
 }
