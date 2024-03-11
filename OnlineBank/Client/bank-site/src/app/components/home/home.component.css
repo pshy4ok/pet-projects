@@ -1,0 +1,46 @@
+.mybank-logo {
+  width: 200px;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 5%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  backdrop-filter: blur(2px);
+}
+
+.welcome-text {
+  margin: auto;
+  font-size: 60px;
+  background: -webkit-linear-gradient(#129, #123);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sign-in_button,
+.sign-up_button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #129;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.sign-in_button:hover,
+.sign-up_button:hover {
+  background-color: #0d76a8;
+}

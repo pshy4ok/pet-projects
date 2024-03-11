@@ -1,0 +1,20 @@
+<div class="logo">
+  <img class="mybank-logo" src="../../../assets/images/mybank-logo.svg" alt="MyBank logo">
+</div>
+<div class="auth-container">
+  <h1 class="welcome-text">Login to your profile</h1>
+  <form (ngSubmit)="onSubmit()" #form="ngForm">
+    <input type="email" id="email" name="email" placeholder="Email" required [(ngModel)]="formData.email">
+    <input type="password" id="password" name="password" placeholder="Password" required [(ngModel)]="formData.password">
+    <div class="remember-me-checkbox">
+      <input type="checkbox" id="rememberMe" name="rememberMe" [(ngModel)]="formData.rememberMe">
+      <label for="rememberMe">Remember Me</label>
+    </div>
+    <button class="sign-in_button" type="submit">Sign In</button>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>
+
