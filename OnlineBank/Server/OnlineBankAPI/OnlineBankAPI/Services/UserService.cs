@@ -40,7 +40,7 @@ namespace OnlineBankAPI.Services
                 Email = userModel.Email,
                 Account = new Account
                 {
-                    AccountNumber = "ACC-" + Guid.NewGuid().ToString().Substring(0, 9)
+                    AccountNumber = AccountNumberGenerator.GenerateAccountNumber()
                 }
             };
 

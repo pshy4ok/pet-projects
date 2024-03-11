@@ -67,7 +67,7 @@ input {
   }
 }
 
-input:focus {
+input:not([type="checkbox"]):focus {
   animation: custom 0.5s ease-in-out;
 }
 
@@ -76,10 +76,31 @@ input::placeholder {
   font-family: 'Ubuntu', sans-serif;
 }
 
+
 .error-message {
   color: red;
   border: 5px black;
   text-shadow: 2px 2px 2px black;
   font-size: larger;
 }
+
+.remember-me-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remember-me-checkbox input[type="checkbox"] {
+  margin-right: 5px;
+  width: auto;
+  height: auto;
+}
+
+.remember-me-checkbox label {
+  font-size: 16px;
+  color: #127;
+  font-family: 'Ubuntu', sans-serif;
+  cursor: pointer;
+}
+
 
