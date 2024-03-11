@@ -34,10 +34,7 @@ export class RegistrationComponent {
       password: password
     };
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    this.http.post(`${environment.apiUrl}/signup`, JSON.stringify(formData), { headers: headers })
+    this.http.post(`${environment.apiUrl}/signup`, formData)
       .subscribe(
         (data: any) => {
           console.log('Registration successful', data);

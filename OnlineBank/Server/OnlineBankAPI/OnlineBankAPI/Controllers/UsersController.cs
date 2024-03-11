@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineBankAPI.Data.Entities;
 using OnlineBankAPI.Models;
 using OnlineBankAPI.Services.Interfaces;
 
@@ -16,7 +17,7 @@ public class UsersController : ControllerBase
     {
         _userService = userService;
     }
-
+    
     [HttpPost("/signup")]
     public async Task<UserModel> RegisterUserAsync([FromBody] UserModel userModel)
     {

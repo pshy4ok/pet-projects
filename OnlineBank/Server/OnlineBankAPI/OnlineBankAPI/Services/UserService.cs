@@ -31,7 +31,7 @@ namespace OnlineBankAPI.Services
             {
                 throw new Exception("This email is already registered");
             }
-
+            
             var user = new User
             {
                 FirstName = userModel.FirstName,
@@ -40,7 +40,8 @@ namespace OnlineBankAPI.Services
                 Email = userModel.Email,
                 Account = new Account
                 {
-                    AccountNumber = AccountNumberGenerator.GenerateAccountNumber()
+                    AccountNumber = AccountNumberGenerator.GenerateAccountNumber(),
+                    Balance = 0
                 }
             };
 
