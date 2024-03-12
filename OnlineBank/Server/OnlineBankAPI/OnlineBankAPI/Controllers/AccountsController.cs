@@ -15,14 +15,14 @@ public class AccountsController : ControllerBase
         _accountService = accountService;
     }
     
-    [HttpGet("{userId}/balance")]
-    public async Task<IActionResult> GetBalanceAsync(string userId)
+    [HttpGet("{userId}/account")]
+    public async Task<ActionResult<object>> GetAccountAsync(string userId)
     {
-        var balance = await _accountService.GetBalanceAsync(userId);
-        return Ok(new { balance });
+        var account = await _accountService.GetAccountAsync(userId);
+        return Ok(account);
     }
     
-    [HttpPut("{userId}/balance")]
+    [HttpPut("{userId}/account-balance")]
     public async Task<IActionResult> SetBalanceAsync(string userId, [FromBody] decimal setBalance)
     {
         await _accountService.SetBalanceAsync(userId, setBalance);

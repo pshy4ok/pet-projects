@@ -40,4 +40,13 @@ export class TokenService {
     console.log('Token cleared.');
     console.log('Cookie cleared.');
   }
+
+    isTokenValid(): boolean {
+        const token = this.getToken();
+        if (!token) return false;
+
+        const expirationDate = new Date();
+        const tokenExpiration = new Date(expirationDate.getTime() + 60 * 60 * 1000);
+        return tokenExpiration > new Date();
+    }
 }

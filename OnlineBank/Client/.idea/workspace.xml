@@ -6,21 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="73e3263b-e1f6-42f8-b2bf-6687db88c94b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-site/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/bank-site/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-site/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/bank-site/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bank-site/src/app/components/account/account.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/bank-site/src/app/components/account/account.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bank-site/src/app/components/account/account.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bank-site/src/app/components/account/account.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-site/src/app/components/registration/registration.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bank-site/src/app/components/registration/registration.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bank-site/src/token.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bank-site/src/token.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Controllers/AccountsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Controllers/AccountsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Controllers/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Data/Entities/Account.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Data/Entities/Account.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Migrations/ApplicationContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Migrations/ApplicationContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/AccountNumberGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/AccountNumberGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/AccountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/AccountService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/Interfaces/IAccountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/Interfaces/IAccountService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/Interfaces/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/Interfaces/IUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/OnlineBankAPI/OnlineBankAPI/Services/UserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +88,8 @@
       <workItem from="1710166848413" duration="7503000" />
       <workItem from="1710180612242" duration="2904000" />
       <workItem from="1710183596584" duration="300000" />
-      <workItem from="1710184064063" duration="1475000" />
+      <workItem from="1710184064063" duration="1574000" />
+      <workItem from="1710265213571" duration="2108000" />
     </task>
     <servers />
   </component>

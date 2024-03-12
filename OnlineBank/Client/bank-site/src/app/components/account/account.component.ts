@@ -13,17 +13,24 @@ import { jwtDecode } from "jwt-decode";
 export class AccountComponent implements OnInit {
   userFirstName: string | null = null;
   balance: number | null = null;
+  accountNumber: number | null = null;
   userId: string | null = null;
 
   constructor(private http: HttpClient, private router: Router, private tokenService: TokenService) {}
 
   ngOnInit(): void {
+      if (!this.tokenService.isTokenValid()) {
+          console.error('Token expired or not available. Redirecting to login page.');
+          this.router.navigate(['/login']);
+          return;
+      }
+
     const token = this.tokenService.getToken();
     if (token && !this.userFirstName) {
       const decodedToken: any = jwtDecode(token);
       this.userId = decodedToken.sub;
       this.fetchUserData();
-      this.fetchBalance();
+      this.fetchAccountData();
     }
   }
 
@@ -42,11 +49,13 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  fetchBalance(): void {
+  fetchAccountData(): void {
     if (this.userId) {
-      this.http.get<any>(`${environment.apiUrl}/api/accounts/${this.userId}/balance`).subscribe(
+      this.http.get<any>(`${environment.apiUrl}/api/accounts/${this.userId}/account`).subscribe(
         (data) => {
+          this.accountNumber = data.accountNumber;
           this.balance = data.balance;
+
         },
         (error) => {
           console.error('Error fetching balance', error);
@@ -56,4 +65,13 @@ export class AccountComponent implements OnInit {
       console.error('User ID is not available');
     }
   }
+
+    formatAccountNumber(accountNumber: number | null): string {
+        if (!accountNumber) return '';
+        const accountNumberString = accountNumber.toString();
+        const groups = accountNumberString.match(/.{1,4}/g);
+        if (!groups) return '';
+        return groups.join(' ');
+    }
+
 }

@@ -16,16 +16,16 @@ public class AccountService : IAccountService
         _applicationContext = applicationContext;
     }
 
-    public async Task<decimal> GetBalanceAsync(string userId)
+    public async Task<object> GetAccountAsync(string userId)
     {
         var account = await _applicationContext.Accounts.FirstOrDefaultAsync(a => a.UserId == userId);
 
         if (account != null)
         {
-            return account.Balance;
+            return new { AccountNumber = account.AccountNumber, Balance = account.Balance };
         }
-
-        throw new Exception("Account not found!");
+        
+        throw new Exception("Account data not found!");
     }
     
     public async Task SetBalanceAsync(string userId, decimal newBalance)

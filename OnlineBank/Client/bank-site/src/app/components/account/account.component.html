@@ -3,8 +3,8 @@
 </div>
 <div class="account-container">
   <h1 class="welcome-text">Welcome to your profile, {{ userFirstName }}!</h1>
+  <h2 class="account_number-text">Your account number: {{ formatAccountNumber(accountNumber) }}</h2>
   <h2 class="balance-text">Your balance: {{ balance | number:'1.2-2' }}</h2>
-
   <div class="account-buttons">
     <div class="logout-container">
       <button class="logout_button" routerLink="/home">Log out</button>
