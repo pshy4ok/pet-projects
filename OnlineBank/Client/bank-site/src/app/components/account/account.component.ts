@@ -74,4 +74,9 @@ export class AccountComponent implements OnInit {
         return groups.join(' ');
     }
 
+  formatBalance(balance: number | null): string {
+    if (balance == null) return '';
+    const formattedBalance = balance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return formattedBalance;
+  }
 }

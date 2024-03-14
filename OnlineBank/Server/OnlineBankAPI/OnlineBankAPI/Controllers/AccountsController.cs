@@ -16,9 +16,9 @@ public class AccountsController : ControllerBase
     }
     
     [HttpGet("{userId}/account")]
-    public async Task<ActionResult<object>> GetAccountAsync(string userId)
+    public async Task<ActionResult<object>> GetAccountAsync()
     {
-        var account = await _accountService.GetAccountAsync(userId);
+        var account = await _accountService.GetAccountAsync(HttpContext);
         return Ok(account);
     }
     

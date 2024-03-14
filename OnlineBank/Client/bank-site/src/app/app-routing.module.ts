@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { LoginComponent } from "./components/login/login.component";
 import { RegistrationComponent } from "./components/registration/registration.component";
 import { AccountComponent } from "./components/account/account.component";
-import {HomeComponent} from "./components/home/home.component";
+import { HomeComponent } from "./components/home/home.component";
+import { AuthGuard } from "../auth.guard";
 
 export const routes: Routes = [
   {
@@ -16,7 +17,8 @@ export const routes: Routes = [
   },
   {
     path: 'account',
-    component: AccountComponent
+    component: AccountComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'home',
@@ -29,6 +31,7 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }
