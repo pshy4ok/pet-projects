@@ -9,10 +9,13 @@ import { LoginComponent } from "./components/login/login.component";
 import { AccountComponent } from "./components/account/account.component";
 import { TokenService } from "../token.service";
 import { AuthInterceptor } from "../auth.interceptor";
+import { MoneyFormatPipe } from "./pipes/money-format.pipe";
+import { AccountNumberPipe } from "./pipes/account-number.pipe";
 
 @NgModule({
-  declarations: [AppComponent, RegistrationComponent, LoginComponent, AccountComponent],
+  declarations: [AppComponent, RegistrationComponent, LoginComponent, AccountComponent, MoneyFormatPipe, AccountNumberPipe],
   imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
+  exports: [MoneyFormatPipe, AccountNumberPipe],
   providers: [TokenService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

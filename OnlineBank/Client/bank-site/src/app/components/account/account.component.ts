@@ -65,18 +65,4 @@ export class AccountComponent implements OnInit {
       console.error('User ID is not available');
     }
   }
-
-    formatAccountNumber(accountNumber: number | null): string {
-        if (!accountNumber) return '';
-        const accountNumberString = accountNumber.toString();
-        const groups = accountNumberString.match(/.{1,4}/g);
-        if (!groups) return '';
-        return groups.join(' ');
-    }
-
-  formatBalance(balance: number | null): string {
-    if (balance == null) return '';
-    const formattedBalance = balance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return formattedBalance;
-  }
 }
