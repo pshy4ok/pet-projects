@@ -14,4 +14,18 @@ public class AccountsController : ControllerBase
     {
         _accountService = accountService;
     }
+    
+    [HttpGet("{userId}/account")]
+    public async Task<ActionResult<object>> GetAccountAsync()
+    {
+        var account = await _accountService.GetAccountAsync(HttpContext);
+        return Ok(account);
+    }
+    
+    [HttpPut("{userId}/account-balance")]
+    public async Task<IActionResult> SetBalanceAsync(string userId, [FromBody] decimal setBalance)
+    {
+        await _accountService.SetBalanceAsync(userId, setBalance);
+        return Ok("Balance set successfully");
+    }
 }

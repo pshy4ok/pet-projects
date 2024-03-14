@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using OnlineBankAPI.Data.Entities;
 using OnlineBankAPI.Models;
 
 namespace OnlineBankAPI.Services.Interfaces;
