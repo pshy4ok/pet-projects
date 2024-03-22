@@ -1,0 +1,11 @@
+<div class="transfer-form-container">
+  <form class="transfer-form" (submit)="transfer()">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Account number" name="accountNumber" [(ngModel)]="destinationAccountNumber">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" placeholder="Amount" name="amount" [(ngModel)]="amount">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Transfer</button>
+  </form>
+</div>

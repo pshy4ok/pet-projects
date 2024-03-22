@@ -1,0 +1,85 @@
+.transfer-form-container {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  width: 80%;
+  height: auto;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5% auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.transfer-form {
+  backdrop-filter: blur(2px);
+  background-color: transparent;
+}
+
+.transfer-form-container form {
+  width: 100%;
+}
+
+.transfer-form-container mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.transfer-form-container input {
+  display: flex;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #127;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Ubuntu', sans-serif;
+  color: #127;
+  outline: none;
+}
+
+.transfer-form-container input::placeholder {
+  color: #127;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.transfer-form-container input:focus {
+  animation: custom 0.5s ease-in-out;
+}
+
+.transfer-form-container button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: green;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.transfer-form-container button:hover {
+  background-color: lightgreen;
+}
+
+@keyframes custom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .transfer-form-container {
+    width: 90%;
+  }
+}

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environment';
 import { TokenService } from "../../../token.service";
 import { jwtDecode } from "jwt-decode";
+import { MatDialog } from '@angular/material/dialog';
+import { TransferFormComponent } from "../transfer-form/transfer-form.component";
 
 @Component({
   selector: 'app-account',
@@ -15,15 +17,16 @@ export class AccountComponent implements OnInit {
   balance: number | null = null;
   accountNumber: number | null = null;
   userId: string | null = null;
+  showTransferForm: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router, private tokenService: TokenService) {}
+  constructor(private http: HttpClient, private router: Router, private tokenService: TokenService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-      if (!this.tokenService.isTokenValid()) {
-          console.error('Token expired or not available. Redirecting to login page.');
-          this.router.navigate(['/login']);
-          return;
-      }
+    if (!this.tokenService.isTokenValid()) {
+      console.error('Token expired or not available. Redirecting to login page.');
+      this.router.navigate(['/login']);
+      return;
+    }
 
     const token = this.tokenService.getToken();
     if (token && !this.userFirstName) {
@@ -64,5 +67,14 @@ export class AccountComponent implements OnInit {
     } else {
       console.error('User ID is not available');
     }
+  }
+
+  openTransferForm(): void {
+    this.showTransferForm = true;
+    const dialogRef = this.dialog.open(TransferFormComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.showTransferForm = false;
+    });
   }
 }

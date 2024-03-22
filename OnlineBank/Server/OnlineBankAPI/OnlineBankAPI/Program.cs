@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
+builder.Services.AddScoped<ITransferService, TransferService>();
 builder.Services.AddDbContext<ApplicationContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder =>
