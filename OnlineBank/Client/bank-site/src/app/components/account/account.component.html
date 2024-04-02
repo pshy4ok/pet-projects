@@ -6,6 +6,9 @@
   <h2 class="account_number-text">Your account number: {{ accountNumber | accountNumberFormat }}</h2>
   <h2 class="balance-text">Your balance: {{ balance | moneyFormat }}</h2>
   <div class="account-buttons">
+    <div class="transfer-container">
+      <button class="make-transfer_button" (click)="openTransferForm()">Make a transfer</button>
+    </div>
     <div class="logout-container">
       <button class="logout_button" routerLink="/home">Log out</button>
     </div>

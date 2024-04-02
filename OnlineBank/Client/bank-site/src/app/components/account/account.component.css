@@ -28,6 +28,23 @@
   -webkit-text-fill-color: transparent;
 }
 
+.make-transfer_button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: green;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.make-transfer_button:hover {
+  background-color: lightgreen;
+}
+
 .logout_button {
   padding: 10px 20px;
   margin: 10px;
@@ -35,15 +52,11 @@
   border: none;
   border-radius: 5px;
   color: #fff;
+  background-color: #129;
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-family: 'Ubuntu', sans-serif;
 }
-
-.logout_button {
-  background-color: #129;
-}
-
 
 .logout_button:hover {
   background-color: #0d76a8;
