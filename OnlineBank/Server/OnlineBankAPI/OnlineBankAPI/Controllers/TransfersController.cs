@@ -15,10 +15,10 @@ public class TransfersController : ControllerBase
         _transferService = transferService;
     }
 
-    [HttpPut("{userId}")]
+    [HttpPut]
     public async Task<IActionResult> TransferAsync([FromBody] TransferModel transferModel)
     {
             await _transferService.TransferAsync(HttpContext, transferModel);
-            return Ok("Transfer completed successfully");
+            return Ok(transferModel);
     }
 }

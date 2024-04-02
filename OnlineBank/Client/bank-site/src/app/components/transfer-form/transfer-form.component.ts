@@ -36,10 +36,11 @@ export class TransferFormComponent {
     const destinationAccountNumberWithoutSpaces = this.destinationAccountNumber.replace(/\s/g, '');
     const transferData = { destinationAccountNumber: destinationAccountNumberWithoutSpaces, amount: this.amount };
 
-    this.http.put(`${environment.apiUrl}/api/transfers/${this.userId}`, transferData)
+    this.http.put(`${environment.apiUrl}/api/transfers`, transferData)
       .subscribe(
         (response: any) => {
-          window.location.reload();
+          this.dialogRef.close();
+          this.transferComplete.emit(transferData);
         },
         (error: any) => {
           this.error = 'Error during the transferring!';

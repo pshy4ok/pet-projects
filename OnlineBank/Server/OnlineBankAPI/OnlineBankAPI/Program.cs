@@ -13,10 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
 builder.Services.AddScoped<ITransferService, TransferService>();
+builder.Services.AddScoped<UserContext>();
 builder.Services.AddDbContext<ApplicationContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(builder =>

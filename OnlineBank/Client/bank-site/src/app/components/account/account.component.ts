@@ -73,6 +73,10 @@ export class AccountComponent implements OnInit {
     this.showTransferForm = true;
     const dialogRef = this.dialog.open(TransferFormComponent);
 
+    dialogRef.componentInstance.transferComplete.subscribe((transferData: any) => {
+      this.fetchAccountData();
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       this.showTransferForm = false;
     });

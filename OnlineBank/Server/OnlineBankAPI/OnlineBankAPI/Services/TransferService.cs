@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Data;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankAPI.Data;
 using OnlineBankAPI.Exceptions;
@@ -10,15 +11,17 @@ namespace OnlineBankAPI.Services;
 public class TransferService : ITransferService
 {
     private readonly ApplicationContext _applicationContext;
+    private readonly UserContext _userContext;
 
-    public TransferService(ApplicationContext applicationContext)
+    public TransferService(ApplicationContext applicationContext, UserContext userContext)
     {
         _applicationContext = applicationContext;
+        _userContext = userContext;
     }
     
     public async Task TransferAsync(HttpContext httpContext, TransferModel transferModel)
     {
-        var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        var userId = _userContext.UserId;
         var accountFrom = await _applicationContext.Accounts.FirstOrDefaultAsync(a => a.UserId == userId);
 
         if (accountFrom == null)
@@ -39,9 +42,21 @@ public class TransferService : ITransferService
             throw new InvalidOperationException("The balance should not be less than the amount of the transfer");
         }
 
-        accountFrom.Balance -= transferModel.Amount;
-        accountTo.Balance += transferModel.Amount;
+        using var transaction = await _applicationContext.Database.BeginTransactionAsync(IsolationLevel.Serializable);
 
-        await _applicationContext.SaveChangesAsync();
+        try
+        {
+            accountFrom.Balance -= transferModel.Amount;
+            accountTo.Balance += transferModel.Amount;
+
+            await _applicationContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 }
